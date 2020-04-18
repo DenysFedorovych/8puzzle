@@ -1,6 +1,7 @@
 package com.company;
 import java.lang.Object;
-import java.util.Iterator;
+import edu.princeton.cs.algs4.StdRandom;
+import java.util.ArrayList;
 public class Board {
     private int m;
     private int[][] board;
@@ -46,7 +47,7 @@ public class Board {
         {
             for(int j=0; j<m; j++)
             {
-                if(board[i][j] != (i*m+j+1))
+                if(board[i][j] != (i*m+j+1) && board[i][j] != 0)
                 {k++;}
             }
         }
@@ -110,17 +111,70 @@ public class Board {
         }
     }
 
-    private class It implements Iterator<Board>
-    {
-        public boolean hasNext(){}
-    }
     // all neighboring boards
     public Iterable<Board> neighbors()
+    {ArrayList<Board> list = new ArrayList<Board>();
+    int a=0,b=0;
+    for(int i=0; i<m; i++)
     {
+        for(int j=0; j<m; j++)
+        {
+            if(board[i][j]==0){a = i;b = j;}
+        }
     }
-
+    if(a != 0 && a != m-1)
+    {
+        list.add(neigh(a,b,a-1,b));
+        list.add(neigh(a,b,a+1,b));
+    }
+    else
+    {
+        if(a==0){list.add(neigh(a,b,a+1,b));}
+        else {list.add(neigh(a,b,a-1,b));}
+    }
+        if(b != 0 && b != m-1)
+        {
+            list.add(neigh(a,b,a,b-1));
+            list.add(neigh(a,b,a,b+1));
+        }
+        else
+        {
+            if(b==0){list.add(neigh(a,b,a,b+1));}
+            else {list.add(neigh(a,b,a,b-1));}
+        }
+     return list;
+    }
+    private int[][] copy()
+    {
+        int[][] a = new int[m][m];
+        for(int i=0; i<m; i++)
+        {
+            for(int j=0; j<m; m++)
+            {
+                a[i][j] = board[i][j];
+            }
+        }
+        return a;
+    }
+    private void swap(int a, int b, int c, int d)
+    {
+        int l = board[a][b];
+        board[a][b] = board[c][d];
+        board[c][d] = l;
+    }
+    private Board neigh(int a, int b, int c, int d)
+    {
+        Board k = new Board(this.copy());
+        k.swap(a,b,c,d);
+        return k;
+    }
     // a board that is obtained by exchanging any pair of tiles
     public Board twin()
+    {
+        int k = StdRandom.uniform(m-1);
+        int p = StdRandom.uniform(m-1);
+        return neigh(k,p,k+1,p+1);
+    }
 
     // unit testing (not graded)
     public static void main(String[] args){}
