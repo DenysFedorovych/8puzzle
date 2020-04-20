@@ -37,7 +37,7 @@ public class Board {
     }
 
     // board dimension n
-    public int dimension(){return this.m;}
+    public int dimension(){return m;}
 
     // number of tiles out of place
     public int hamming()
