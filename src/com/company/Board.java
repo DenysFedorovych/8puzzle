@@ -55,33 +55,25 @@ public class Board {
     }
 
     // sum of Manhattan distances between tiles and goal
-    public int manhattan()
-    {
-        int k=0;
-        for(int i=0; i<m; i++)
-        {
-            for(int j=0; j<m; j++)
-            {
+    public int manhattan() {
+        int k = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m; j++) {
                 int p = board[i][j];
-                if(p/m>i && (p-(p/m)*m)>j)
-                {
-                    k+= p/m - i + p-(p/m)*m - j;
-                }
-                else
-                {
-                    if(p/m>i && (p-(p/m)*m)<j)
-                    {
-                        k+= p/m - i + j - p-(p/m)*m;
-                    }
-                    else
-                    {
-                        if(p/m<i && (p-(p/m)*m)>j)
-                        {
-                            k+= i - p/m + p-(p/m)*m - j;
-                        }
-                        else
-                        {
-                            k+= i - p/m + j - p-(p/m)*m;
+                if (p == 0) {
+                    continue;
+                } else {
+                    if (p / m >= i && (p - (p / m) * m) - 1 >= j) {
+                        k += (p / m - i + (p - (p / m) * m) - 1 - j);
+                    } else {
+                        if (p / m >= i && (p - (p / m) * m) - 1 < j) {
+                            k += (p / m - i + j + 1 - (p - (p / m) * m));
+                        } else {
+                            if (p / m < i && (p - (p / m) * m) - 1 >= j) {
+                                k += (i - p / m + (p - (p / m) * m) - 1 - j);
+                            } else {
+                                k += (i - p / m + j + 1 - (p - (p / m) * m));
+                            }
                         }
                     }
                 }
@@ -89,7 +81,6 @@ public class Board {
         }
         return k;
     }
-
     // is this board the goal board?
     public boolean isGoal(){return this.hamming()==0;}
 

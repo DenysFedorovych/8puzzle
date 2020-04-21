@@ -3,15 +3,28 @@ package com.company;
 public class Main {
 
     public static void main(String[] args) {
-        int[][] tiles = new int[3][3];
-        for(int i=0; i<3; i++)
-        {
-            for(int j=0; j<3; j++)
-            {
-                tiles[i][j] = 3*i+j;
+        int p = 5;
+        int m = 3;
+        int k = 0;
+        int i = 1;
+        int j = 2;
+        if (p == 0) {
+            continue;
+        } else {
+            if (p / m >= i && (p - (p / m) * m) - 1 >= j) {
+                k += (p / m - i + (p - (p / m) * m) - 1 - j);
+            } else {
+                if (p / m >= i && (p - (p / m) * m) - 1 < j) {
+                    k += (p / m - i + j + 1 - (p - (p / m) * m));
+                } else {
+                    if (p / m < i && (p - (p / m) * m) - 1 >= j) {
+                        k += (i - p / m + (p - (p / m) * m) - 1 - j);
+                    } else {
+                        k += (i - p / m + j + 1 - (p - (p / m) * m));
+                    }
+                }
             }
+            System.out.println(k);
         }
-        Board a = new Board(tiles);
-        System.out.println(a.toString());
     }
 }
