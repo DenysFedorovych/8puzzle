@@ -3,7 +3,7 @@ import java.lang.Object;
 import edu.princeton.cs.algs4.StdRandom;
 import java.util.ArrayList;
 public class Board {
-    private int m;
+    private int m=0;
     private int[][] board;
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
@@ -65,18 +65,18 @@ public class Board {
                 } else {
                     if ((p-1) / m >= i && (p - ((p-1) / m) * m) - 1 >= j) {
                         k += ((p-1) / m - i + (p - ((p-1) / m) * m) - 1 - j);
-                        System.out.println("a" + p);
+                        //System.out.println("a" + p);
                     } else {
                         if ((p-1) / m >= i && (p - ((p-1) / m) * m) - 1 < j) {
                             k += ((p-1) / m  - i + j + 1 - (p - ((p-1) / m) * m));
-                            System.out.println("b" + p);
+                            //System.out.println("b" + p);
                         } else {
                             if ((p-1) / m  < i && (p - ((p-1) / m) * m) - 1 >= j) {
                                 k += (i - (p-1) / m + (p - ((p-1) / m) * m) - 1 - j);
-                                System.out.println("c" + p);
+                                //System.out.println("c" + p);
                             } else {
                                 k += (i - (p-1) / m + j + 1 - (p - ((p-1) / m) * m));
-                                System.out.println("d" + p);
+                                //System.out.println("d" + p);
                             }
                         }
                     }
@@ -89,21 +89,18 @@ public class Board {
     public boolean isGoal(){return this.hamming()==0;}
 
     // does this board equal y?
-    public boolean equals(Object y)
-    {
-        int k=0;
-        int[][] list = (int[][]) y;
-        if(list.length != m)
-            return false;
-        else {
-            for (int i = 0; i < m; i++) {
-                for (int j = 0; j < m; j++) {
-                    if (board[i][j] != list[i][j])
-                        k++;
-                }
+    public boolean equals(Object y) {
+        if (y == null) return false;
+        if (this == y) return true;
+        if (this.getClass() != y.getClass()) return false;
+        Board boardY = (Board) y;
+        if (boardY.dimension() != this.dimension()) return false;
+        for (int i=0;i<this.dimension();i++)
+            for (int j=0;j<this.dimension();j++){
+                if (this.board[i][j] != boardY.board[i][j])
+                    return false;
             }
-            return k==0;
-        }
+        return true;
     }
 
     // all neighboring boards
@@ -144,7 +141,7 @@ public class Board {
         int[][] a = new int[m][m];
         for(int i=0; i<m; i++)
         {
-            for(int j=0; j<m; m++)
+            for(int j=0; j<m; j++)
             {
                 a[i][j] = board[i][j];
             }
@@ -166,9 +163,11 @@ public class Board {
     // a board that is obtained by exchanging any pair of tiles
     public Board twin()
     {
-        int k = StdRandom.uniform(m-1);
-        int p = StdRandom.uniform(m-1);
-        return neigh(k,p,k+1,p+1);
+        if(m>1) {
+            return neigh(0, m-1, m-1, 0);
+        }
+        else
+            return this;
     }
 
     // unit testing (not graded)

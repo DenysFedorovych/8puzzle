@@ -1,14 +1,15 @@
 //package com.company;
-//import java.util.Comparator;
+import java.util.Comparator;
 import java.util.ArrayList;
 import edu.princeton.cs.algs4.MinPQ;
 public class Solver {
     private SearchNode pobeda;
+    private int g;
     private class SearchNode implements Comparable<SearchNode>
     {
       private final Board board;
       private final SearchNode bboard;
-      private int moves;
+      private int moves=0;
       private int priority;
       private SearchNode(Board a, SearchNode b, int k)
       {
@@ -18,11 +19,21 @@ public class Solver {
           priority = moves + a.manhattan();
       }
       private Board getBoard() {return board;}
-      private Board getBboard() {return bboard.getBboard();}
+      private Board getBboard()
+      {
+          if(bboard != null)
+          {return bboard.getBoard();}
+          else
+              return null;
+      }
       private SearchNode getprev() {return bboard;}
       public int compareTo(SearchNode a)
       {
-          return (int) (this.priority - a.priority);
+          int h=0;
+          if(this.priority > a.priority){h=1;}
+          if(this.priority == a.priority){h=0;}
+          if(this.priority < a.priority){h=(-1);}
+          return h;
       }
     }
     // find a solution to the initial board (using the A* algorithm)
@@ -39,6 +50,11 @@ public class Solver {
             current = solv.delMin();
             Board l;
             l = current.getBoard();
+            if(moves>100000)
+            {
+                p++;
+                break;
+            }
             if(l.isGoal())
             {
                 pobeda = current;
@@ -48,7 +64,7 @@ public class Solver {
             moves++;
             for(Board each : l.neighbors())
             {
-                if(each != current.getBboard())
+                if(!each.equals(current.getBboard()))
                 {
                     SearchNode j = new SearchNode(each,current,moves);
                     solv.insert(j);
@@ -63,7 +79,15 @@ public class Solver {
     }
 
     // min number of moves to solve initial board
-    public int moves(){return pobeda.moves;}
+    public int moves(){SearchNode n;
+        n = pobeda;
+        ArrayList<Board> list = new ArrayList<Board>();
+        while(n != null)
+        {
+            list.add(n.getBoard());
+            n = n.getprev();
+        }
+    return (list.size()-1);}
 
     // sequence of boards in a shortest solution
     public Iterable<Board> solution()
@@ -76,7 +100,12 @@ public class Solver {
             list.add(n.getBoard());
             n = n.getprev();
         }
-        return list;
+        ArrayList<Board> list1 = new ArrayList<Board>();
+        while(list.size()>0)
+        {
+            list1.add(list.remove(list.size()-1));
+        }
+        return list1;
     }
 
     // test client (see below)
