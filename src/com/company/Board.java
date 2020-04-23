@@ -1,4 +1,4 @@
-package com.company;
+//package com.company;
 import java.lang.Object;
 import edu.princeton.cs.algs4.StdRandom;
 import java.util.ArrayList;
@@ -63,16 +63,20 @@ public class Board {
                 if (p == 0) {
                     continue;
                 } else {
-                    if (p / m >= i && (p - (p / m) * m) - 1 >= j) {
-                        k += (p / m - i + (p - (p / m) * m) - 1 - j);
+                    if ((p-1) / m >= i && (p - ((p-1) / m) * m) - 1 >= j) {
+                        k += ((p-1) / m - i + (p - ((p-1) / m) * m) - 1 - j);
+                        System.out.println("a" + p);
                     } else {
-                        if (p / m >= i && (p - (p / m) * m) - 1 < j) {
-                            k += (p / m - i + j + 1 - (p - (p / m) * m));
+                        if ((p-1) / m >= i && (p - ((p-1) / m) * m) - 1 < j) {
+                            k += ((p-1) / m  - i + j + 1 - (p - ((p-1) / m) * m));
+                            System.out.println("b" + p);
                         } else {
-                            if (p / m < i && (p - (p / m) * m) - 1 >= j) {
-                                k += (i - p / m + (p - (p / m) * m) - 1 - j);
+                            if ((p-1) / m  < i && (p - ((p-1) / m) * m) - 1 >= j) {
+                                k += (i - (p-1) / m + (p - ((p-1) / m) * m) - 1 - j);
+                                System.out.println("c" + p);
                             } else {
-                                k += (i - p / m + j + 1 - (p - (p / m) * m));
+                                k += (i - (p-1) / m + j + 1 - (p - ((p-1) / m) * m));
+                                System.out.println("d" + p);
                             }
                         }
                     }

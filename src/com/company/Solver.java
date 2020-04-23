@@ -1,5 +1,5 @@
-package com.company;
-import java.util.Comparator;
+//package com.company;
+//import java.util.Comparator;
 import java.util.ArrayList;
 import edu.princeton.cs.algs4.MinPQ;
 public class Solver {
